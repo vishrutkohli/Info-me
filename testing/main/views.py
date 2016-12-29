@@ -98,22 +98,21 @@ def index(request):
 
 def apidetails(request):
 	
-	uid = request.GET.get("identifier")
+	title = request.GET.get("title")
 	print uid  
 
 
-	p = fragmentname.objects.get_or_create(identifier = uid)[0]
-	name = p.name
-	print name
+	p = fragmentname.objects.get_or_create(name = title)[0]
 
-	q = organisations.objects.get(name = name)
+	q = organisations.objects.get(name = title)
 	image1  = q.img1 
 	image2 = q.img2 
 	image3 = q.img3 
 	knowmore = q.knowmore 
 	description = q.description
+	name = q.name
 	print "this worked1"
-	response_obj = json.dumps({"images":{"img1":image1 , "img2" : image2 , "img3" : image3}, "knowmore":knowmore , "description" :description})	
+	response_obj = json.dumps({"images":{"img1":image1 , "img2" : image2 , "img3" : image3}, "knowmore":knowmore , "description" :description , "title": name })	
 
 	
 
@@ -131,15 +130,15 @@ def apidetails(request):
 
 def apiuid(request):
 
-	uid = request.GET.get("uid")
+	uid = request.GET.get("title")
 
-	q = fragmentname.objects.values_list('identifier' , flat = True )
+	q = fragmentname.objects.values_list('name' , flat = True )
 
 	
 
 	for b in q :
 
-		if b == uid :
+		if b == title :
 			a = "yes"
 			break;
 
